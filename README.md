@@ -8,8 +8,8 @@ M-Switch is a mirror switch tool. You can use this script to update your sources
 |:-:| :-:|
 | **Kali Linux** | ✅ |
 
-### Download & Execute:
-`bash <(curl -Ls https://https://github.com/Sir-MmD/m-switch/blob/main/m-switch.sh)`
+### Run:
+`bash <(curl -Ls https://raw.githubusercontent.com/Sir-MmD/m-switch/master/m-switch.sh)`
 
 ### Screenshots
 ![](https://github.com/Sir-MmD/m-switch/blob/main/menu.png)
