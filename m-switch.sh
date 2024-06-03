@@ -1,7 +1,6 @@
 #!/bin/bash
 #MmD
 
-# Function to check if the user is root
 check_root_user() {
   if [ "$EUID" -ne 0 ]; then
     echo "This script must be run as ${RED}root${NC}."
@@ -9,7 +8,6 @@ check_root_user() {
   fi
 }
 
-# Function to check if the OS is Kali Linux
 check_os_kali() {
   if [ -f /etc/os-release ]; then
     . /etc/os-release
@@ -23,7 +21,6 @@ check_os_kali() {
   fi
 }
 
-# Global variable for hostnames
 declare -a hostnames=(
     "kali.download"
     "mirrors.jevincanders.net"
@@ -85,7 +82,6 @@ declare -a hostnames=(
     "fastmirror.pp.ua"
 )
 
-# ANSI color codes
 GREEN=$(tput setaf 2)
 RED=$(tput setaf 1)
 BLUE=$(tput setaf 4)
@@ -94,16 +90,13 @@ NC=$(tput sgr0) # No Color
 set_mirror_auto() {
     backup_sources_list
     
-    # Call test_mirror function to find the best mirror
     test_mirror
     
     if [ -n "$best_hostname" ]; then
-        # Update sources.list with the best hostname
         sudo sed -i "s|deb http://[^/]\+/kali|deb http://$best_hostname/kali|g" /etc/apt/sources.list
         echo ""
         echo "Updated /etc/apt/sources.list with the best mirror: ${BLUE}$best_hostname${NC}"
         echo ""
-        # apt update
         apt update -y
         echo ""
         echo "${GREEN}Update complete! Enjoy!${NC}"
@@ -113,7 +106,6 @@ set_mirror_auto() {
     fi
 }
 
-# Function to prompt user for apt update
 prompt_apt_update() {
     read -p "Do you want to run 'apt update' now? (y/n): " update_choice
     case "$update_choice" in
@@ -127,9 +119,7 @@ prompt_apt_update() {
     esac
 }
 
-# Function to set mirror manually
 set_mirror_manual() {
-    # Display each hostname with a number for selection
     for i in "${!hostnames[@]}"; do
         echo "$((i+1)). ${hostnames[$i]}"
     done
@@ -137,13 +127,10 @@ set_mirror_manual() {
     if [ $num -ge 1 ] && [ $num -le ${#hostnames[@]} ]; then
         selected_hostname=${hostnames[$((num-1))]}
         echo "Hostname set to: ${BLUE}$selected_hostname${NC}"
-        
-        # Search for and replace the selected hostname in sources.list
         sudo sed -i "s|deb http://[^/]\+/kali|deb http://$selected_hostname/kali|g" /etc/apt/sources.list
         echo ""
         echo "Updated /etc/apt/sources.list with the selected hostname."
         echo ""
-        # Prompt user to run apt update
         prompt_apt_update
     else
         echo "Invalid number. Please enter a number from 1 to ${#hostnames[@]}."
@@ -153,12 +140,10 @@ set_mirror_manual() {
 
 best_hostname=""
 
-# Function to test mirror
 test_mirror() {
     echo ""
     echo "Testing mirrors connectivity:"
     echo ""
-    # Variables to track OK and failed servers
     ok_count=0
     failed_count=0
     best_time=9999999
@@ -173,8 +158,6 @@ test_mirror() {
             duration=$(( (end_time - start_time) / 1000000 ))  # Duration in milliseconds
             echo -e "${GREEN}OK${NC} ${duration}ms"
             ((ok_count++))
-            
-            # Check for the best hostname
             if [ $duration -lt $best_time ]; then
                 best_time=$duration
                 best_hostname=$hostname
@@ -192,7 +175,6 @@ test_mirror() {
     echo "------------------------"
 }
 
-# Function to backup sources.list
 backup_sources_list() {
     if [ -f /etc/apt/sources.list.backup ]; then
         echo ""
@@ -206,8 +188,6 @@ backup_sources_list() {
     fi
 }
 
-
-# Function to restore sources.list
 restore_sources_list() {
     sudo cp /etc/apt/sources.list.backup /etc/apt/sources.list
     echo ""
@@ -215,7 +195,6 @@ restore_sources_list() {
     echo ""
 }
 
-# Display menu
 display_menu() {
     echo ""
     echo "███    ███       ███████ ██     ██ ██ ████████  ██████ ██   ██ "
@@ -233,7 +212,6 @@ display_menu() {
     echo "6. Exit"
 }
 
-# Main script
 while true; do
     check_root_user
     check_os_kali
