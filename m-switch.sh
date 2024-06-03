@@ -4,7 +4,7 @@
 # Function to check if the user is root
 check_root_user() {
   if [ "$EUID" -ne 0 ]; then
-    echo "This script must be run as root."
+    echo "This script must be run as ${RED}root${NC}."
     exit 1
   fi
 }
@@ -14,7 +14,7 @@ check_os_kali() {
   if [ -f /etc/os-release ]; then
     . /etc/os-release
     if [ "$ID" != "kali" ]; then
-      echo "This script must be run on Kali Linux."
+      echo "This script must be run on ${RED}Kali Linux${NC}."
       exit 1
     fi
   else
