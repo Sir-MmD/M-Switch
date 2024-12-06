@@ -78,7 +78,7 @@ declare -a hostnames=(
     "kali.mirror2.gnc.am"
     "kali.mirror1.gnc.am"
     "md.mirrors.hacktegic.com"
-    "mirror.math.princeton.edu"
+    "mirror.math.princeton.edu/pub"
     "fastmirror.pp.ua"
 )
 
