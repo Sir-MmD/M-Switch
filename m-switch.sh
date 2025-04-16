@@ -75,9 +75,7 @@ declare -a hostnames=(
     "ftp.cc.uoc.gr"
     "mirror.amuksa.com"
     "kali.itsec.am"
-    "kali.mirror2.gnc.am"
     "kali.mirror1.gnc.am"
-    "md.mirrors.hacktegic.com"
     "mirror.math.princeton.edu/pub"
     "fastmirror.pp.ua"
 )
